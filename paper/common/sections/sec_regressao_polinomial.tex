@@ -1,0 +1,79 @@
+\section{Regressão Polinomial}
+\label{sec:regressao}
+
+Uma forma natural e eficaz de construir uma base é por meio de polinômios,
+sendo que o conjunto \(\{\varphi_k\}\) pode ser formado por todas as funções
+da forma
+\begin{equation*}
+    \varphi_k = \hat{e}_d \, c_{d,\vec{\alpha}} \, x^{\vec{\alpha}},
+\end{equation*}
+onde o vetor de expoentes $\vec{\alpha} = (\alpha_1, \alpha_2, \ldots, \alpha_n)
+\in \mathbb{N}^n$ varia sobre todas as combinações cuja soma é
+$|\vec{\alpha}| = \sum_{i=1}^n \alpha_i \le r$ --- com $r$ sendo o grau máximo
+do polinômio ---, e $\hat{e}_d \in \mathbb{R}^m$ é o vetor unitário com valor
+$1$ na componente de índice $d$ e zero nas demais.
+Portanto, o polinômio pode ser escrito como
+
+\begin{equation*}
+    P_{\le r}(\vec{x}) =
+        \sum_{d=1}^{m}\;
+        \sum_{\substack{\vec{\alpha}\in\mathbb{N}^n\\|\vec{\alpha}|\le r}}
+        c_{d,\vec{\alpha}}\;\hat{e}_d\,\vec{x}^{\,\vec{\alpha}},
+        \qquad
+        \vec{x}^{\,\vec{\alpha}}:=
+        \prod_{i=1}^{n} x_i^{\alpha_i}.
+\end{equation*}
+
+onde \(\vec{x}^{\,\vec{\alpha}}\) denota o monômio associado ao multi-índice
+\(\vec{\alpha}\), conforme \cite{burden_faires_2011}.
+
+Expandindo os termos homogêneos $x^{\vec\alpha}$, obtemos
+
+\begin{equation*}
+    P_{\le r}(\vec{x}) =
+    \sum_{d=1}^{m} \;
+    \sum_{j=0}^{r} \;
+    \sum_{\substack{\vec{\alpha}\in\mathbb{N}^n\\|\vec{\alpha}|=j}}
+    c_{d,\vec{\alpha}}\;\hat{e}_d\,
+    \prod_{i=1}^{n} x_i^{\alpha_i}.
+\end{equation*}
+
+Note que aqui assumimos a existência de algum mapeamento razoável na forma
+
+\begin{equation*}
+    (d,\vec\alpha) \to k.
+\end{equation*}
+
+O índice $k$ referencia cada função base de maneira unívoca e nos permite adotar
+a modelagem matricial usual: montamos o sistema linear $G\vec{a} = \vec{b}$ em
+que $G$ é a matriz de Gram associada às $\{\varphi_k\}$.
+
+\begin{equation*}
+    \begin{bmatrix}
+    \langle \varphi_0, \varphi_0 \rangle &
+    \langle \varphi_0, \varphi_1 \rangle &
+    \cdots &
+    \langle \varphi_0, \varphi_n \rangle \\
+    \langle \varphi_1, \varphi_0 \rangle &
+    \langle \varphi_1, \varphi_1 \rangle &
+    \cdots &
+    \langle \varphi_1, \varphi_n \rangle \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \langle \varphi_n, \varphi_0 \rangle &
+    \langle \varphi_n, \varphi_1 \rangle &
+    \cdots &
+    \langle \varphi_n, \varphi_n \rangle \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        a_0 \\ a_1 \\ \vdots \\ a_n
+    \end{bmatrix}
+    = \begin{bmatrix}
+        \langle f,\varphi_0 \rangle \\
+        \langle f,\varphi_1 \rangle \\
+        \vdots \\
+        \langle f,\varphi_n \rangle
+    \end{bmatrix}
+\end{equation*}
+
+Essa formulação estabelece as relações que serão usadas nas seções seguintes
+para analisar o condicionamento numérico e as estratégias de solução.

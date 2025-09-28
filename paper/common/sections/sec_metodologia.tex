@@ -1,0 +1,41 @@
+\section{Metodologia}
+\label{sec:metodologia}
+
+A metodologia seguiu diretamente a formulação dos mínimos quadrados apresentada
+nas Seções iniciais. As bases polinomiais descritas em $\S$\ref{sec:regressao}
+foram geradas tanto pela abordagem simbólica quanto pela implementação
+vetorizada do pacote \texttt{regkit}, garantindo que os sistemas normais
+$G\vec{a}=\vec{b}$ produzidos em cada experimento correspondessem à teoria. A
+versão simbólica atuou como referência para depuração, enquanto a variante
+otimizada foi empregada nas execuções de larga escala descritas a seguir.
+
+\subsection{Problemas estudados}
+
+Foram analisados três problemas complementares. O primeiro é o conjunto
+exploratório de hélices gerado por \texttt{gen\_exploration\_dataset}, com
+$n=3$, $m=2$, $N=200$ e ruído gaussiano de desvio padrão $0{,}01$. Ele codifica
+trajetórias helicoidais acopladas entre entradas e saídas e serve como cenário
+controlado para validar a montagem matricial e comparar as implementações
+ingênua e vetorizada. O segundo problema corresponde ao protótipo~4$\times$4,
+conjunto alvo sintético obtido por \texttt{create\_target\_dataset} que
+reproduz a versão estruturada em MATLAB com quatro entradas e quatro saídas
+parametrizadas pelos eixos temporais $t$ e $q$. A heterogeneidade entre os
+regimes de tempo e parâmetro torna esse protótipo o foco principal da aplicação.
+O problema extra é o ajuste da superfície ``wing'' a partir de 308 amostras
+avaliadas sobre a geometria da asa. 
+
+\subsection{Procedimentos experimentais e visualização}
+
+Cada execução foi gerenciada pelos scripts \texttt{run\_regkit\_usage.py} e
+\texttt{run\_benchmark\_regression.py}. O primeiro instancia os problemas das
+hélices e do protótipo~4$\times$4, executa um \textit{sweep} nos graus polinomiais de
+1 a~10 e persiste as métricas de erro em \texttt{results/regkit\_usage\_rmse.csv}.
+O segundo consolida os experimentos da asa e os benchmarks de desempenho. A
+análise qualitativa utiliza o utilitário \texttt{plot\_dataset}, que aplica PCA
+em $\mathbb{R}^{n+m}$ e reaproveita o mesmo projetor para comparar dados
+originais e predições. Esse procedimento mantém a
+correspondência geométrica entre séries reais e estimadas, além de orientar a
+leitura dos resíduos nas figuras apresentadas na Seção~\ref{sec:resultados}. 
+Vale ressaltar que a utilização do PCA é necessária para visualizar a semelhança 
+entre os conjuntos, dada a alta dimensionalidade dos dados. Apenas o problema da asa
+permite uma visualização direta, pois ocorre em três dimensões. 

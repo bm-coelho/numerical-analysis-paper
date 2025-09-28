@@ -1,0 +1,3 @@
+Implementation,Points,Degree,Repeat,Mean time [s],Std time [s],Peak memory [MB]
+Optimized block solve,1000000,5,1,0.6678167790000202,0.0,448.201048
+Out-of-core largeP,1000000,5,1,0.5689662229999612,0.0,4.107948

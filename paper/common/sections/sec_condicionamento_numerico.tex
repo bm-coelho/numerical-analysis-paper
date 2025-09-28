@@ -1,0 +1,53 @@
+\subsection{Condicionamento Numérico}
+
+\pgfplotstableread[col sep=comma]{../../results/ill_conditioned_gram.csv}\illconditioned
+
+\pgfplotstablegetelem{0}{num_points}\of\illconditioned
+\edef\illHighPoints{\pgfplotsretval}
+\pgfplotstablegetelem{0}{degree}\of\illconditioned
+\edef\illHighDegree{\pgfplotsretval}
+\pgfplotstablegetelem{0}{cond}\of\illconditioned
+\edef\illHighCondRaw{\pgfplotsretval}
+\pgfplotstablegetelem{1}{ridge_effective}\of\illconditioned
+\edef\illHighRidge{\pgfplotsretval}
+
+\pgfplotstablegetelem{2}{num_points}\of\illconditioned
+\edef\illDupPoints{\pgfplotsretval}
+\pgfplotstablegetelem{2}{degree}\of\illconditioned
+\edef\illDupDegree{\pgfplotsretval}
+\pgfplotstablegetelem{2}{cond}\of\illconditioned
+\edef\illDupCondRaw{\pgfplotsretval}
+
+\edef\illHighCond{\fpeval{\illHighCondRaw}}
+
+Experimentos controlados confirmaram que certas configurações tornam o bloco de
+Gram extremamente mal condicionado.
+Um script dedicado\footnote{Disponível no repositório como
+\texttt{experiments/run\_ill\_conditioned\_regression.py}, o qual gera a
+tabela \texttt{results/ill\_conditioned\_gram.csv}.}
+reproduz dois cenários representativos: (i)
+\illHighPoints\,amostras equiespaçadas em $[-1,1]$ ajustadas com um polinômio
+de grau \illHighDegree, cuja matriz apresenta
+$\operatorname{cond}(G) \approx
+\num[scientific-notation=true,round-mode=figures,round-precision=3]{\illHighCond}$;
+e (ii) \illDupPoints\,amostras coincidentes sob ajuste de grau
+\illDupDegree, para as quais $\operatorname{cond}(G)$ é reportado como
+\texttt{\illDupCondRaw}, evidenciando a degenerescência da matriz de
+Vandermonde.
+
+Denotemos por $V \in \mathbb{R}^{N \times p}$ a matriz de
+Vandermonde cujas linhas são os vetores de monômios avaliados em cada ponto
+$p_j$ e cujas colunas correspondem às $p=\binom{n+r}{r}$ funções base.
+Ao acumular $V^T V$ ao longo das amostras, obtemos precisamente o bloco de
+Gram $G$, enquanto a acumulação $V^T \vec{f}$ gera o vetor $\vec{b}$.
+Quando as colunas de $V$ ficam quase linearmente dependentes - como ocorre em
+graus altos, em domínios muito alongados ou em variáveis fortemente
+correlacionadas - essa acumulação herda a perda de significância e culmina em
+um $G$ mal condicionado.
+
+Para mitigar tais problemas, o solver \texttt{regression\_optimized} foi projetado para identificar automaticamente situações de mal condicionamento e, nesses casos,
+ele substitui a resolução em blocos por uma chamada a
+\texttt{numpy.linalg.lstsq}, enquanto \texttt{regression\_largeP} mantém a
+decomposição, porém injeta automaticamente uma regularização de magnitude
+\num[scientific-notation=true]{\illHighRidge} no sistema, conforme registrado
+para ambos os cenários analisados.

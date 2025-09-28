@@ -1,0 +1,14 @@
+# Core dependencies for working with the numerical analysis project via pip
+numpy
+matplotlib
+scikit-learn
+sympy
+tqdm
+ipykernel
+pandas
+xlrd>=2.0.1
+pytest
+sphinx
+sphinx-autodoc-typehints
+furo
+jupyterlab

@@ -1,0 +1,79 @@
+\section{Implementação}
+
+\graphicspath{{img/}{../img/}{../../img/}}
+
+\pgfplotstableread[col sep=comma]{../../results/optimized_largeP_metrics.csv}\streammetrics
+
+\pgfplotstablegetelem{0}{rmse}\of\streammetrics
+\edef\streamFullRmse{\pgfplotsretval}
+\pgfplotstablegetelem{1}{rmse}\of\streammetrics
+\edef\streamIncrementalRmse{\pgfplotsretval}
+\pgfplotstablegetelem{0}{coef_diff_fro}\of\streammetrics
+\edef\streamFullCoefDiff{\pgfplotsretval}
+\pgfplotstablegetelem{1}{coef_diff_fro}\of\streammetrics
+\edef\streamIncrementalCoefDiff{\pgfplotsretval}
+
+Os protótipos desenvolvidos ao longo da pesquisa foram consolidados no pacote
+\texttt{regkit}, estruturado para atender a duas demandas complementares. A
+primeira trata da reprodução fiel da formulação simbólica discutida nas seções
+anteriores. Para isso, o módulo \texttt{naive} emprega a biblioteca SymPy para
+gerar automaticamente todos os monômios até um grau $r$ e combina cada termo
+com os versores $\hat e_d$ associados às saídas. Em seguida, as funções
+lambdificadas são avaliadas ponto a ponto para montar a matriz de Gram $G$ e o
+vetor $b$ do sistema normal $G\vec{a}=\vec{b}$, preservando a estrutura em
+blocos descrita anteriormente.
+
+\begin{equation*}
+    G_{ij} =
+    \sum_{p=1}^{N} \varphi_i(\vec{x}_p) \cdot \varphi_j(\vec{x}_p),
+    \qquad
+    b_i = \sum_{p=1}^{N} f(\vec{x}_p) \cdot \varphi_i(\vec{x}_p).
+\end{equation*}
+
+Embora computacionalmente onerosa, essa rota permitiu validar cada etapa da
+derivação original e gerar códigos numéricos equivalentes via SymPy, que
+serviram como referência para os demais experimentos.
+
+A segunda demanda é a execução eficiente em cenários com muitos pontos
+amostrais. O módulo \texttt{optimized} codifica diretamente a montagem por
+blocos, utilizando a transformação \textit{PolynomialFeatures} do
+\textit{scikit-learn} para obter a matriz de projeto $V \in \mathbb{R}^{N \times
+Q}$. Dessa forma, o sistema normal passa a ser resolvido de maneira vetorizada,
+com os $m$ problemas acoplados em uma única resolução matricial. Quando o
+condicionamento de $V^{\top}V$ se deteriora, a implementação detecta o
+problema e realiza uma regressão por mínimos quadrados diretamente em $V$,
+garantindo estabilidade numérica\cite{burden_faires_2011}.
+
+Para bases muito extensas, o submódulo \texttt{regression\_largeP} acumula $G$ e
+$b$ iterativamente em lotes de tamanho controlado, adicionando regularização de
+cresta quando necessário. Esse fluxo \textit{fora da memória} é necessário para
+manipular nuvens com grande número de pontos e graus polinomiais altos sem
+exceder a memória disponível. As medições consolidadas na
+Tabela~\ref{tab:streaming} mostram que a versão incremental produz o mesmo erro
+quadrático médio (RMSE) da solução integral,
+com ambos registrando
+\num[scientific-notation=true,round-mode=figures,round-precision=3]{\streamFullRmse},
+e divergindo apenas por diferenças numéricas de ordem
+\num[scientific-notation=true,round-mode=figures,round-precision=2]{\streamIncrementalCoefDiff}
+na norma de Frobenius dos coeficientes.
+
+\begin{table}[H]
+    \centering
+    \caption{Comparativo entre as variantes integral e incremental do módulo
+    \texttt{regression\_largeP}.}
+    \label{tab:streaming}
+    \begin{tabular}{lcc}
+        \hline\\
+        Método & RMSE & $\|C_{\text{full}} - C_{\text{stream}}\|_F$\\\\
+        \hline\\
+        Integral & \num[scientific-notation=true,round-mode=figures,round-precision=3]{\streamFullRmse} & \num{\streamFullCoefDiff}\\\\
+        Incremental & \num[scientific-notation=true,round-mode=figures,round-precision=3]{\streamIncrementalRmse} & \num[scientific-notation=true,round-mode=figures,round-precision=2]{\streamIncrementalCoefDiff}\\\\
+        \hline
+    \end{tabular}
+\end{table}
+
+Todo o código foi empacotado de forma reprodutível: os scripts
+\texttt{run\_regkit\_usage.py} e \texttt{run\_benchmark\_regression.py}
+geram automaticamente os conjuntos de dados, executam as regressões com
+diferentes hiperparâmetros e persistem as figuras analisadas na
+Seção~\ref{sec:resultados}.

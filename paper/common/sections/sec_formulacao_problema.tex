@@ -1,0 +1,56 @@
+\section{Formulação do Problema}
+
+Dada uma função $f:\mathbb{R}^n \to \mathbb{R}^m$, buscamos uma aproximação por
+combinação linear de funções base
+$\Phi = \{\varphi_1,\varphi_2,\ldots,\varphi_k\} \subset V$, onde $V$ é o
+espaço vetorial das funções $f$ dotado do produto interno
+\begin{equation*}
+    \langle f,g \rangle =
+    \int_{\Omega}f(\vec{x})\cdot g(\vec{x}) \, d\vec{x},
+\end{equation*}
+com $\cdot$ denotando o produto escalar usual em $\mathbb{R}^m$ e
+$\Omega \subset\mathbb{R}^n$ um domínio limitado e mensurável.
+%
+Para que esse produto interno esteja bem definido e seja finito, restringimos
+nossa atenção às funções cujos componentes são quadrado-integráveis sobre o
+domínio $\Omega$. Isso nos leva ao subespaço
+\begin{equation*}
+    V_\Omega = \{f\in V \mid f_i \in L^2(\Omega) \text{~para~} i=1,\ldots,m\},
+\end{equation*}
+o qual, quando dotado do produto interno acima, constitui um espaço de
+Hilbert\cite{franco_calculo_numerico_2006}.
+
+%
+A linearidade do produto escalar em $\mathbb{R}^m$ permite reescrever o produto
+interno entre $f,g\in V_\Omega$ como
+\begin{equation*}
+    \langle f,g \rangle =
+    \int_{\Omega} \sum_{i=1}^{m} f_i(\vec{x}) g_i(\vec{x}) \, d\vec{x} =
+    \sum_{i=1}^{m} \int_{\Omega} f_i(\vec{x}) g_i(\vec{x}) \, d\vec{x}.
+\end{equation*}
+Em particular, se adotarmos um domínio
+$\Omega = [a_1,b_1]\times\ldots\times[a_n,b_n]\subset\mathbb{R}^n$, a
+expressão acima assume a forma
+\begin{equation*}
+    \langle f(\vec{x}), g(\vec{x}) \rangle =
+    \sum_{i=1}^{m} \int_{a_1}^{b_1} \cdots \int_{a_n}^{b_n}
+    f_i(x_1, \ldots, x_n)
+    g_i(x_1, \ldots, x_n) \, dx_n \cdots dx_1.
+\end{equation*}
+Quando a função $f$ é conhecida apenas por meio de uma amostragem em um conjunto
+de pontos $\{p_j\}_{j=1}^N\subset\Omega$, é possível aproximar o produto
+interno pela soma discreta
+\begin{equation*}
+    \langle f,g \rangle \approx
+    \sum_{i=1}^m\sum_{j=1}^{N} f_i(\vec{p}_j)g_i(\vec{p}_j).
+\end{equation*}
+Com isso, o problema pode ser formulado como a resolução de um sistema linear
+\begin{equation*}
+    G\vec{a} = \vec{b},
+\end{equation*}
+conhecido como sistema de equações normais dos mínimos
+quadrados\cite{burden_faires_2011,franco_calculo_numerico_2006},
+em que $G\in\mathbb{R}^{k \times k}$ é a matriz de Gram, com entradas
+$G_{i,j} = \langle \varphi_i,\varphi_j\rangle$; $\vec{a}\in\mathbb{R}^k$
+contém os coeficientes da combinação linear; e $\vec{b}\in\mathbb{R}^k$ possui
+entradas $b_i = \langle f,\varphi_i\rangle$.

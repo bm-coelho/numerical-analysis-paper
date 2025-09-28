@@ -1,0 +1,131 @@
+% Elaborado para o X Workshop de Matematica e Matemática Aplicada
+% (https://dmm.ufla.br/wmma/xwmma/).
+
+\documentclass[12pt]{article}
+
+% Linguagem
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+
+% Definir tamanho da página e margens
+\setlength{\voffset}{-1,8cm}
+\setlength{\hoffset}{-1,1cm}
+\setlength{\textheight}{22,5cm}
+\setlength{\textwidth}{16,0cm}
+
+
+% Pacotes
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\makeindex
+\usepackage{amssymb}
+\usepackage{theorem}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\graphicspath{{../figuras/}}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{subfigure}
+\usepackage{url}
+
+ \newtheorem{Lema}{Lema}
+ \newtheorem{teo}{Teorema}
+ \newtheorem{prop}{Proposição}
+ \newtheorem{obs}{Observação}
+ \newtheorem{cor}{Corolário}
+ \newtheorem{ex}{Exemplo}
+ \newtheorem{exerc}{}
+ \newenvironment{dem}{\noindent{\bf Demonstração:} }{
+ \hfill $\Box$ \vspace{0.5cm}}
+
+%%%%%%%%%%%%%%%%%%  SEU TEXTO %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%\thispagestyle{empty}
+\pagestyle{empty} %paginas sem numeracao
+%\maketitle
+
+
+\begin{flushleft}
+\tiny {\textbf{X Workshop de Matemática e Matemática Aplicada
+\hspace{5,0cm} Congonhas -- MG, 2025}}\\
+\vspace{-0.175cm}
+\hrulefill
+\end{flushleft}
+
+\begin{center}
+        {\Large \bf Instruções para Submissão de Resumos \\
+        para o X WMMA}\\
+\end{center}
+
+\begin{flushright}
+        {\footnotesize Autor 1} \footnote{Universidade , \\
+  fulano@xxxxx.com.br}\\
+        {\footnotesize Autor 2}\footnote{Universidade , \\
+  fulano2@xxxxx.com.br}
+\end{flushright}
+
+
+\vspace{.6cm}
+
+
+
+O resumo deve ter, no máximo, duas páginas, incluindo as referências
+bibliográficas.
+
+
+Caso queira inserir uma figura, proceda da seguinte maneira: primeiro, você
+precisa carregar o arquivo de imagem do seu computador usando o link de upload
+no menu de arquivos. Em seguida, use o comando includegraphics para incluí-lo
+no seu documento. Use o ambiente figure e o comando caption para adicionar um
+número e uma legenda à sua figura. Veja o código da Figura \ref{fig:logo}
+abaixo para um exemplo.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.25\linewidth]{wmma.jpg}
+\caption{\label{fig:logo}Um exemplo de Figura.}
+\end{figure}
+
+
+Use os ambientes de tabela e tabular para tabelas básicas — veja a
+Tabela \ref{tab:TabelaEx}, por exemplo.
+\begin{table}[ht]
+\centering
+\begin{tabular}{l|r}
+\hline
+Cidade & Temperatura \\
+\hline
+OB & 24 \\
+BH & 27\\
+\hline
+\end{tabular}
+\caption{\label{tab:TabelaEx} Um exemplo de tabela}
+\end{table}
+
+
+\LaTeX{} é uma poderosa ferramenta para a escrita matemática, permitindo a
+elaboração de textos com expressões matemáticas apresentadas de forma clara,
+precisa e elegante, como por exemplo:
+
+\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
+      = \frac{1}{n}\sum_{i}^{n} X_i\]
+
+\begin{equation}
+    \int_a^b \left(x^2 - x + 2\right) \; dx
+\end{equation}
+
+As referências bibliográficas devem ser inseridas conforme o padrão
+especificado, sendo geradas automaticamente. Este template oferece suporte à
+inserção de referências utilizando o pacote BibLaTeX.
+
+%\bibliographystyle{alpha}
+%\bibliographystyle{unsrt}
+\bibliographystyle{ieeetr}
+\bibliography{Ref}
+
+\end{document}

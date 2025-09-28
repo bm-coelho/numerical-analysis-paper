@@ -1,0 +1,111 @@
+% Elaborado para o X Workshop de Matematica e Matemática Aplicada
+% (https://dmm.ufla.br/wmma/xwmma/).
+
+\documentclass[12pt]{article}
+
+% Linguagem
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+
+% Definir tamanho da página e margens
+\setlength{\voffset}{-1,8cm}
+\setlength{\hoffset}{-1,1cm}
+\setlength{\textheight}{22,5cm}
+\setlength{\textwidth}{16,0cm}
+
+
+% Pacotes
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\makeindex
+\usepackage{amssymb}
+\usepackage{theorem}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\graphicspath{{../figuras/}}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{subfigure}
+\usepackage{url}
+\usepackage[multiple]{footmisc}
+\usepackage{float}
+\usepackage{pgfplotstable}
+\usepackage{xfp}
+\usepackage{siunitx}
+\sisetup{
+    locale=FR,
+    round-mode=figures,
+    round-precision=3,
+    scientific-notation=true
+}
+
+\newtheorem{definicao}{Definição}
+\newtheorem{Lema}{Lema}
+\newtheorem{teo}{Teorema}
+\newtheorem{prop}{Proposição}
+\newtheorem{obs}{Observação}
+\newtheorem{cor}{Corolário}
+\newtheorem{ex}{Exemplo}
+\newtheorem{exerc}{}
+\newenvironment{dem}{\noindent{\bf Demonstração:} }{
+\hfill $\Box$ \vspace{0.5cm}}
+
+
+%%%%%%%%%%%%%%%%%%  SEU TEXTO %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%\thispagestyle{empty}
+\pagestyle{empty} %paginas sem numeracao
+%\maketitle
+
+
+\begin{flushleft}
+\tiny {\textbf{X Workshop de Matemática e Matemática Aplicada
+\hspace{5,0cm} Congonhas -- MG, 2025}}\\
+\vspace{-0.175cm}
+\hrulefill
+\end{flushleft}
+
+\begin{center}
+    {\Large \bf Título}\\
+\end{center}
+
+
+% -----
+\begin{flushright}
+    {\footnotesize Bernardo Maia Coelho}\footnote{\label{nota1} Instituto de
+    Ciências Matemáticas e de Computação -- Universidade de São Paulo, \\
+    \texttt{fulano1@xxxxx.com.br}, \texttt{fulano2@xxxxx.com.br},
+    \texttt{fulano3@xxxxx.com.br}} \\
+    {\footnotesize Eduardo Fontoura Costa}
+    \hyperref[nota1]{\textsuperscript{\ref{nota1}}} \\
+    {\footnotesize Luiz Henrique Romero}
+    \hyperref[nota1]{\textsuperscript{\ref{nota1}}}
+\end{flushright}
+\vspace{.6cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEXTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{../common/sections/sec_formulacao_problema}
+
+\input{../common/sections/sec_regressao_polinomial}
+
+\input{../common/sections/sec_otimizacao_regressao}
+
+\input{../common/sections/sec_metodologia}
+\input{../common/sections/sec_aplicacao_implementacao}
+\input{../common/sections/sec_resultados}
+\input{../common/sections/sec_aplicacao_conclusao}
+
+
+%\bibliographystyle{alpha}
+%\bibliographystyle{unsrt}
+\bibliographystyle{ieeetr}
+\bibliography{../../paper/common/refs}
+
+\end{document}

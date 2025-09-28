@@ -1,0 +1,5 @@
+scenario,solver,degree,num_points,cond,action,ridge_effective
+high_degree_low_points,regression_optimized,14,15,1.2206e+12,fallback_to_lstsq,0.0
+high_degree_low_points,regression_largeP,14,15,1.2206e+12,ridge_added,1e-08
+duplicate_samples,regression_optimized,3,10,inf,fallback_to_lstsq,0.0
+duplicate_samples,regression_largeP,3,10,inf,ridge_added,1e-08

@@ -1,0 +1,18 @@
+name: num_analysis_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy           # for numerical operations
+  - matplotlib      # for plotting
+  - scikit-learn    # for PCA and t-SNE
+  - tqdm            # for progress reporting during dataset assembly
+  - ipykernel       # for Jupyter kernel
+  - sympy           # for symbolic mathematics
+  - pandas          # for notebook data manipulation and benchmarking exports
+  - xlrd>=2.0.1     # for reading legacy XLS data files during experiments
+  - pytest          # for running the automated test suite
+  - sphinx          # for building the documentation
+  - sphinx-autodoc-typehints  # Sphinx extension used by the docs configuration
+  - furo            # Sphinx theme for the documentation
+  - jupyterlab      # for working with the project notebooks
